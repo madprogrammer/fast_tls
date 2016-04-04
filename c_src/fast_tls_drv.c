@@ -55,7 +55,14 @@ typedef unsigned __int32 uint32_t;
 
 /* Wrappers around driver_alloc() that check  */
 /* for OOM.                                   */
+
+#ifdef HAVE_ERL_EXIT
 void erl_exit(int n, char*, ...);
+#else
+void erts_exit(int n, char*, ...);
+#define erl_exit erts_exit
+#endif
+
 void *ftls_alloc(ErlDrvSizeT size);
 void *ftls_realloc(void *ptr, ErlDrvSizeT size);
 ErlDrvBinary *ftls_alloc_binary(ErlDrvSizeT size);
